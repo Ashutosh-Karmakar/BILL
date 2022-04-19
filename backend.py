@@ -1,6 +1,7 @@
 from tkinter import *
 from baseInitialization import UiFields
 from database import findBillNumber, findByNumber
+from common import insert_into_disabled
 
 
 def check_clicked_tab(u: UiFields):
@@ -298,27 +299,10 @@ def calculate(u: UiFields, focused_tab):
         cgst = round(cgst / 2, 2)
         gstamt = cgst * 2
 
-        u.cgst_txt[i].config(state='normal')
-        u.sgst_txt[i].config(state='normal')
-        u.gstAmt_txt[i].config(state='normal')
-        u.mc_txt[i].config(state='normal')
-
-        u.cgst_txt[i].delete(0, END)
-        u.cgst_txt[i].insert(0, cgst)
-
-        u.sgst_txt[i].delete(0, END)
-        u.sgst_txt[i].insert(0, cgst)
-
-        u.gstAmt_txt[i].delete(0, END)
-        u.gstAmt_txt[i].insert(0, gstamt)
-
-        u.mc_txt[i].delete(0, END)
-        u.mc_txt[i].insert(0, mc)
-
-        u.cgst_txt[i].config(state=DISABLED)
-        u.sgst_txt[i].config(state=DISABLED)
-        u.gstAmt_txt[i].config(state=DISABLED)
-        u.mc_txt[i].config(state=DISABLED)
+        insert_into_disabled(u.cgst_txt[i], cgst)
+        insert_into_disabled(u.sgst_txt[i], cgst)
+        insert_into_disabled(u.gstAmt_txt[i], gstamt)
+        insert_into_disabled(u.mc_txt[i], mc)
 
         u.gstAmt_txt[i].focus_set()
 

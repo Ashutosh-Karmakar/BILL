@@ -3,6 +3,7 @@ from tkinter import *
 from tkcalendar import Calendar
 from baseInitialization import UiFields
 from database import findGRDate
+from common import createCalender, visual_date_convert
 
 
 def findGoldRateOnDate(u: UiFields):
@@ -10,34 +11,15 @@ def findGoldRateOnDate(u: UiFields):
     root.configure(bg=u.background_color)
     root.title("Gold Rate")
     root.geometry("400x600")
-    cur_date = datetime.now()
-
-    cal = Calendar(root, selectmode='day',
-                   year=cur_date.year, month=cur_date.month,
-                   day=cur_date.day)
-
+    cal = createCalender(root)
     cal.pack(pady=20)
 
     def grad_date():
-        date.config(text="Selected Date is: " + cal.get_date())
-        datefind = ''
-        result = cal.get_date()
-        result = result.split('/')
-
-        datefind = datefind + '20' + result[2] + '-'
-        if len(result[0]) == 1:
-            result[0] = '0' + result[0]
-        datefind = datefind + result[0] + '-'
-
-        if len(result[1]) == 1:
-            result[1] = '0' + result[1]
-        datefind = datefind + result[1]
-
-        u.grFindDate = datefind
+        u.grFindDate = visual_date_convert(cal.get_date())
         print(u.grFindDate)
-        u.grFindDate = datetime.strptime(cal.get_date(), '%m/%d/%y')
         i = findGRDate(u)
 
+        date.config(text="Selected Date is: " + u.grFindDate)
         goldRate.config(text=u.grRateOnDate)
         goldRate.config(font=("times new rommon", 11))
 

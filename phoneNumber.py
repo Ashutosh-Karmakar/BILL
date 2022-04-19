@@ -1,6 +1,6 @@
 from database import getPhNumber
 from tkinter import *
-
+from common import date_to_string
 
 def findPhone():
     root = Tk()
@@ -14,7 +14,7 @@ def findPhone():
              yscrollcommand=v.set)
     result = getPhNumber()
     for i in range(len(result)):
-        t.insert(END, result[i][0] + '\t\t' + result[i][1] + '\t\t' + result[i][2].strftime('%d-%m-%Y') + '\n')
+        t.insert(END, result[i][0] + '\t\t' + result[i][1] + '\t\t' + date_to_string(result[i][2]) + '\n')
         t.config(font=('times new rommon', 10))
     t.pack(side=TOP, fill=X)
     t.config(state=DISABLED)

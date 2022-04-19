@@ -4,15 +4,15 @@ from tkinter import *
 from tkinter import messagebox
 from baseInitialization import UiFields
 from database import saveGoldRate
-from backend import newBill, startOverGOLDRATE
-
+from backend import startOverGOLDRATE
+from common import insert_into_disabled
 
 def calc(u: UiFields, i):
     try:
         wt = float(u.wt_txt[i].get())
         amt = float(u.net_txt[i].get())
         gr = u.gold_rate
-
+        print(gr)
         cost = amt * (100 / 103)
         if cost < amt:
             cgst = amt - cost
@@ -29,27 +29,10 @@ def calc(u: UiFields, i):
             messagebox.showerror("Error", 'GOLD RATE IS TOO HIGH')
             return 1
 
-        u.cgst_txt[i].config(state='normal')
-        u.sgst_txt[i].config(state='normal')
-        u.gstAmt_txt[i].config(state='normal')
-        u.mc_txt[i].config(state='normal')
-
-        u.cgst_txt[i].delete(0, END)
-        u.cgst_txt[i].insert(0, cgst)
-
-        u.sgst_txt[i].delete(0, END)
-        u.sgst_txt[i].insert(0, cgst)
-
-        u.gstAmt_txt[i].delete(0, END)
-        u.gstAmt_txt[i].insert(0, gstamt)
-
-        u.mc_txt[i].delete(0, END)
-        u.mc_txt[i].insert(0, mc)
-
-        u.cgst_txt[i].config(state=DISABLED)
-        u.sgst_txt[i].config(state=DISABLED)
-        u.gstAmt_txt[i].config(state=DISABLED)
-        u.mc_txt[i].config(state=DISABLED)
+        insert_into_disabled(u.cgst_txt[i], cgst)
+        insert_into_disabled(u.sgst_txt[i], cgst)
+        insert_into_disabled(u.gstAmt_txt[i], gstamt)
+        insert_into_disabled(u.mc_txt[i], mc)
 
         u.gstAmt_txt[i].focus_set()
     except Exception as e:
@@ -71,18 +54,13 @@ def changeGoldRate(u: UiFields):
         u.gold_rate = int(gold_rate)
     saveGoldRate(u)
     for i in range(0, 9):
-        u.unit_txt[i].config(state='normal')
-        u.unit_txt[i].delete(0, END)
-        u.unit_txt[i].insert(0, u.gold_rate)
-        u.unit_txt[i].config(state=DISABLED)
+        insert_into_disabled(u.unit_txt[i], u.gold_rate)
 
     u.old_gold_rate = u.gold_rate - 100
 
     for i in range(0, 3):
-        u.oldunit_txt[i].config(state='normal')
-        u.oldunit_txt[i].delete(0, END)
-        u.oldunit_txt[i].insert(0, u.old_gold_rate)
-        u.oldunit_txt[i].config(state=DISABLED)
+        insert_into_disabled(u.oldunit_txt[i], u.old_gold_rate)
+
     if u.mobile_txt.get() == '':
         u.mobile_txt.focus()
         u.entryCount = 0
