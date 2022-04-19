@@ -1,10 +1,11 @@
-import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 import os
 import openpyxl
 from openpyxl.styles import Border, Side, Font
+import smtplib
+
 from baseInitialization import UiFields
 
 j = 4

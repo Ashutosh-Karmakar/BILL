@@ -1,15 +1,15 @@
-import os
-from statistics import median_grouped
-from tkinter import messagebox
+import datetime
 from threading import Thread
+import time
+from tkinter import messagebox
+import os
 import openpyxl
 from openpyxl.styles import PatternFill, Border, Side, Font, fills, Alignment, Protection, borders
-import datetime
-import time
 import subprocess
-from database import saveBillLocation, saveCustomerData, saveGstData
-from baseInitialization import UiFields
+
 from backend import convert
+from baseInitialization import UiFields
+from database import saveBillLocation, saveCustomerData, saveGstData
 from printer import printBill
 
 

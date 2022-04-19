@@ -1,11 +1,12 @@
 import tkinter as tk
 from tkinter import simpledialog
-from tkinter import *
 from tkinter import messagebox
-from baseInitialization import UiFields
-from database import saveGoldRate
+
 from backend import startOverGOLDRATE
+from baseInitialization import UiFields
 from common import insert_into_disabled
+from database import saveGoldRate
+
 
 def calc(u: UiFields, i):
     try:

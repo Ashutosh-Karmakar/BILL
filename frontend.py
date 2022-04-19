@@ -1,23 +1,20 @@
-from tkinter import *
-from tkinter.ttk import *
-import tkinter
-from tkinter import *
-import os
-import sys
 import datetime
 import pyautogui
+import sys
+import tkinter
+from tkinter import *
 
 from baseInitialization import UiFields
 from backend import enterOperation, newBill, set_total_after_charges, clicked_tab, check_clicked_tab
+from billgenerator import generateBill
+from changeConfig import config
+from common import insert_into_disabled, insert_after_delete
+from database import findBillNumber, findGoldRate, findConfigValue
+from findGoldrate import findGoldRateOnDate
 from goldrate import changeGoldRate
 from monthlyGST import monthlyGst
-from findGoldrate import findGoldRateOnDate
-from billgenerator import generateBill
-from database import findBillNumber, findGoldRate, findConfigValue
-from changeConfig import config
-from findBill import find
 from phoneNumber import findPhone
-from common import insert_into_disabled
+
 
 u = UiFields()
 u.gold_rate = 4876
@@ -290,12 +287,10 @@ def selected(event):
     u.credit_card_charge = findConfigValue('credit_card')
     u.debit_card_charge = findConfigValue('debit_card')
     if u.clicked.get() == 'Debit Card':
-        u.charge.delete(0, END)
-        u.charge.insert(0, (str(u.debit_card_charge) + '%'))
+        insert_after_delete(u.charge, (str(u.debit_card_charge) + '%'))
         u.charge_amt = u.debit_card_charge
     elif u.clicked.get() == 'Credit Card':
-        u.charge.delete(0, END)
-        u.charge.insert(0, (str(u.credit_card_charge) + '%'))
+        insert_after_delete(u.charge, (str(u.credit_card_charge) + '%'))
         u.charge_amt = u.credit_card_charge
     else:
         u.charge.delete(0, END)
@@ -333,9 +328,7 @@ u.total.grid(row=0, column=35, padx=10, pady=5)
 u.total.insert(0, 0)
 u.entry_list.append(u.total)
 
-
 # ======================================Buttons of the Code=========================
-
 
 # def findBill():
 #     os.system('python findBill.py')
@@ -351,9 +344,9 @@ u.generateBtn = Button(F6, text="Generate Bill", font=('times new rommon', 13), 
                        bg=u.bg_color, bd=2)
 u.generateBtn.grid(column=1, row=0, padx=20, pady=10)
 
-u.findBtn = Button(F6, text="Find (Ctrl+F)", font=('times new rommon', 13), command=lambda: find(u), bg=u.bg_color,
-                   bd=2)
-u.findBtn.grid(column=2, row=0, padx=20, pady=10)
+# u.findBtn = Button(F6, text="Find (Ctrl+F)", font=('times new rommon', 13), command=lambda: find(u), bg=u.bg_color,
+#                    bd=2)
+# u.findBtn.grid(column=2, row=0, padx=20, pady=10)
 
 u.change_gold_rate = Button(F6, text="Gold Rate", font=('times new rommon', 13), command=lambda: changeGoldRate(u),
                             bg=u.bg_color, bd=2)

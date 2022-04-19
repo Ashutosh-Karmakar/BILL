@@ -1,6 +1,8 @@
-from database import getPhNumber
 from tkinter import *
+
 from common import date_to_string
+from database import getPhNumber
+
 
 def findPhone():
     root = Tk()

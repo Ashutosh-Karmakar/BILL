@@ -1,10 +1,9 @@
-from baseInitialization import UiFields
-from database import findAllConfig, insertNewConfig, changeConfig
 import tkinter
 from tkinter import *
-import sys
 
-# c = UiFields()
+from baseInitialization import UiFields
+from database import findAllConfig, insertNewConfig, changeConfig
+
 
 i = 1
 

@@ -1,7 +1,8 @@
 from tkinter import *
+
 from baseInitialization import UiFields
-from database import findBillNumber, findByNumber
 from common import insert_into_disabled, insert_after_delete
+from database import findBillNumber, findByNumber
 
 
 def check_clicked_tab(u: UiFields):

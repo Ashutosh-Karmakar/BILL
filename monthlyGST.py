@@ -1,12 +1,10 @@
 import tkinter
-from datetime import datetime
 from tkinter import *
-from tkcalendar import Calendar
 
-from database import findGst, findConfigValue
 from baseInitialization import UiFields
-from gstexel import send_email
 from common import createCalender, date_to_string, visual_date_convert
+from database import findGst, findConfigValue
+from gstexel import send_email
 
 
 def monthlyGst(u: UiFields):
@@ -72,7 +70,6 @@ def monthlyGst(u: UiFields):
                 u.gstFind.grid_forget()
                 llmsg.grid(column=1, row=4)
 
-    # Add Button and Label
     Button(window, text="Get Date",
            command=lambda: grad_date(calfrom, 1)).grid(row=3, column=0)
     Button(window, text="Get Date",
