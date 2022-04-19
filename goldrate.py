@@ -2,43 +2,10 @@ import tkinter as tk
 from tkinter import simpledialog
 from tkinter import messagebox
 
-from backend import startOverGOLDRATE
+from backend import calculate
 from baseInitialization import UiFields
 from common import insert_into_disabled
 from database import saveGoldRate
-
-
-def calc(u: UiFields, i):
-    try:
-        wt = float(u.wt_txt[i].get())
-        amt = float(u.net_txt[i].get())
-        gr = u.gold_rate
-        print(gr)
-        cost = amt * (100 / 103)
-        if cost < amt:
-            cgst = amt - cost
-        else:
-            cgst = 0
-        mc = (cost / wt) - gr
-        mc = round(mc, 2)
-        cgst = round(cgst / 2, 2)
-        gstamt = cgst * 2
-
-        if mc < 0:
-            startOverGOLDRATE(u)
-            print("There is a error in calculation mc")
-            messagebox.showerror("Error", 'GOLD RATE IS TOO HIGH')
-            return 1
-
-        insert_into_disabled(u.cgst_txt[i], cgst)
-        insert_into_disabled(u.sgst_txt[i], cgst)
-        insert_into_disabled(u.gstAmt_txt[i], gstamt)
-        insert_into_disabled(u.mc_txt[i], mc)
-
-        u.gstAmt_txt[i].focus_set()
-    except Exception as e:
-        print("There is a error in cal in goldrate : {0}".format(e))
-        messagebox.showerror("Error", "There is a error in cal in goldrate : {0}".format(e))
 
 
 def changeGoldRate(u: UiFields):
@@ -80,7 +47,7 @@ def changeGoldRate(u: UiFields):
             u.net_txt[l].focus()
             u.entryCount = 6 + l * 3
             break
-        mm = calc(u, l)
+        mm = calculate(u, l, 'goldrate')
         if mm == 1:
             break
     if l == 10:

@@ -49,9 +49,7 @@ def edit(c: UiFields, i):
 def config(c: UiFields):
     global i
     window = tkinter.Tk()
-    # window.attributes('-fullscreen', True)
     window.geometry('1000x800')
-    # window.configure(bg=u.background_color)
     window.title("Config")
     window.configure(bg=c.bg_color)
 
@@ -101,4 +99,3 @@ def config(c: UiFields):
 
     window.mainloop()
 
-# config()

@@ -5,10 +5,10 @@ import tkinter
 from tkinter import *
 
 from baseInitialization import UiFields
-from backend import enterOperation, newBill, set_total_after_charges, clicked_tab, check_clicked_tab
+from backend import enterOperation, newBill, set_total_after_charges, check_clicked_tab
 from billgenerator import generateBill
 from changeConfig import config
-from common import insert_into_disabled, insert_after_delete
+from common import insert_into_disabled, insert_after_delete, clicked_tab
 from database import findBillNumber, findGoldRate, findConfigValue
 from findGoldrate import findGoldRateOnDate
 from goldrate import changeGoldRate

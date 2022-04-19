@@ -1,7 +1,8 @@
 from tkinter import *
+from tkinter import messagebox
 
 from baseInitialization import UiFields
-from common import insert_into_disabled, insert_after_delete
+from common import insert_into_disabled, insert_after_delete, focusedTab, tabNumber
 from database import findBillNumber, findByNumber
 
 
@@ -29,241 +30,6 @@ def check_clicked_tab(u: UiFields):
         return 1
 
 
-def clicked_tab(focused_top):
-    if focused_top == '.!entry':
-        return 0
-    if focused_top == '.!entry2':
-        return 1
-    if focused_top == '.!entry3':
-        return 2
-    if focused_top == '.!entry4':
-        return 3
-    if focused_top == '.!labelframe.!entry':
-        return 4
-    if focused_top == '.!labelframe.!entry2':
-        return 5
-    if focused_top == '.!labelframe.!entry3':
-        return 6
-    if focused_top == '.!labelframe.!entry9':
-        return 7
-    if focused_top == '.!labelframe.!entry10':
-        return 8
-    if focused_top == '.!labelframe.!entry11':
-        return 9
-    if focused_top == '.!labelframe.!entry17':
-        return 10
-    if focused_top == '.!labelframe.!entry18':
-        return 11
-    if focused_top == '.!labelframe.!entry19':
-        return 12
-    if focused_top == '.!labelframe.!entry25':
-        return 13
-    if focused_top == '.!labelframe.!entry26':
-        return 14
-    if focused_top == '.!labelframe.!entry27':
-        return 15
-    if focused_top == '.!labelframe.!entry33':
-        return 16
-    if focused_top == '.!labelframe.!entry34':
-        return 17
-    if focused_top == '.!labelframe.!entry35':
-        return 18
-    if focused_top == '.!labelframe.!entry41':
-        return 19
-    if focused_top == '.!labelframe.!entry42':
-        return 20
-    if focused_top == '.!labelframe.!entry43':
-        return 21
-    if focused_top == '.!labelframe.!entry49':
-        return 22
-    if focused_top == '.!labelframe.!entry50':
-        return 23
-    if focused_top == '.!labelframe.!entry51':
-        return 24
-    if focused_top == '.!labelframe.!entry57':
-        return 25
-    if focused_top == '.!labelframe.!entry58':
-        return 26
-    if focused_top == '.!labelframe.!entry59':
-        return 27
-    if focused_top == '.!labelframe.!entry65':
-        return 28
-    if focused_top == '.!labelframe.!entry66':
-        return 29
-    if focused_top == '.!labelframe.!entry67':
-        return 30
-    if focused_top == '.!labelframe2.!entry2':
-        return 31
-    if focused_top == '.!labelframe2.!entry4':
-        return 32
-    if focused_top == '.!labelframe2.!entry6':
-        return 33
-    if focused_top == '.!labelframe2.!entry8':
-        return 34
-    if focused_top == '.!labelframe2.!entry10':
-        return 35
-    if focused_top == '.!labelframe2.!entry12':
-        return 36
-    if focused_top == '.!labelframe3.!entry2':
-        return 37
-    if focused_top == '.!labelframe3.!entry4':
-        return 38
-    if focused_top == '.!labelframe3.!entry6':
-        return 39
-    if focused_top == '.!labelframe4.!entry':
-        return 40
-    if focused_top == '.!labelframe4.!entry2':
-        return 41
-
-
-def focusedTab(focused_tab):
-    if focused_tab == '.!entry4':
-        return 'addhar'
-    if focused_tab == '.!entry':
-        return 'number'
-    if focused_tab == '.!entry2':
-        return 'name'
-    if focused_tab == '.!labelframe.!entry' or focused_tab == '.!labelframe.!entry9' or \
-            focused_tab == '.!labelframe.!entry17' or focused_tab == '.!labelframe.!entry25' or \
-            focused_tab == '.!labelframe.!entry33' or focused_tab == '.!labelframe.!entry41' or \
-            focused_tab == '.!labelframe.!entry49' or focused_tab == '.!labelframe.!entry57' or \
-            focused_tab == '.!labelframe.!entry65':
-        return 'desc'
-    if focused_tab == '.!labelframe.!entry2' or focused_tab == '.!labelframe.!entry10' or \
-            focused_tab == '.!labelframe.!entry18' or focused_tab == '.!labelframe.!entry26' or \
-            focused_tab == '.!labelframe.!entry34' or focused_tab == '.!labelframe.!entry42' or \
-            focused_tab == '.!labelframe.!entry50' or focused_tab == '.!labelframe.!entry58' or \
-            focused_tab == '.!labelframe.!entry66':
-        return 'wt'
-    if focused_tab == '.!labelframe.!entry3' or focused_tab == '.!labelframe.!entry11' or \
-            focused_tab == '.!labelframe.!entry19' or focused_tab == '.!labelframe.!entry27' or \
-            focused_tab == '.!labelframe.!entry35' or focused_tab == '.!labelframe.!entry43' or \
-            focused_tab == '.!labelframe.!entry51' or focused_tab == '.!labelframe.!entry59' or \
-            focused_tab == '.!labelframe.!entry67':
-        return 'newTotal'
-    if focused_tab == '.!labelframe2.!entry2' or focused_tab == '.!labelframe2.!entry6' or\
-            focused_tab == '.!labelframe2.!entry10':
-        return 'oldWt'
-    if focused_tab == '.!labelframe2.!entry' or focused_tab == '.!labelframe2.!entry5' or\
-            focused_tab == '.!labelframe2.!entry9':
-        return 'oldDesc'
-    if focused_tab == '.!labelframe3.!entry' or focused_tab == '.!labelframe3.!entry3' or\
-            focused_tab == '.!labelframe3.!entry5':
-        return 'addDesc'
-    if focused_tab == '.!labelframe2.!entry4' or focused_tab == '.!labelframe2.!entry8' or\
-            focused_tab == '.!labelframe2.!entry12':
-        return 'oldAmt'
-    if focused_tab == '.!labelframe3.!entry2' or focused_tab == '.!labelframe3.!entry4' or\
-            focused_tab == '.!labelframe3.!entry6':
-        return 'addAmt'
-    if focused_tab == '.!labelframe4.!entry2':
-        return 'charges'
-    if focused_tab == '.!labelframe4.!entry3':
-        return 'total'
-
-
-def tabNumber(focused_tab):
-    # desc entry:
-    if focused_tab == '.!labelframe.!entry':
-        return 0
-    if focused_tab == '.!labelframe.!entry9':
-        return 1
-    if focused_tab == '.!labelframe.!entry17':
-        return 2
-    if focused_tab == '.!labelframe.!entry25':
-        return 3
-    if focused_tab == '.!labelframe.!entry33':
-        return 4
-    if focused_tab == '.!labelframe.!entry41':
-        return 5
-    if focused_tab == '.!labelframe.!entry49':
-        return 6
-    if focused_tab == '.!labelframe.!entry57':
-        return 7
-    if focused_tab == '.!labelframe.!entry65':
-        return 8
-
-    # wt entry
-    if focused_tab == '.!labelframe.!entry2':
-        return 0
-    if focused_tab == '.!labelframe.!entry10':
-        return 1
-    if focused_tab == '.!labelframe.!entry18':
-        return 2
-    if focused_tab == '.!labelframe.!entry26':
-        return 3
-    if focused_tab == '.!labelframe.!entry34':
-        return 4
-    if focused_tab == '.!labelframe.!entry42':
-        return 5
-    if focused_tab == '.!labelframe.!entry50':
-        return 6
-    if focused_tab == '.!labelframe.!entry58':
-        return 7
-    if focused_tab == '.!labelframe.!entry66':
-        return 8
-
-    # new total
-    if focused_tab == '.!labelframe.!entry3':
-        return 0
-    if focused_tab == '.!labelframe.!entry11':
-        return 1
-    if focused_tab == '.!labelframe.!entry19':
-        return 2
-    if focused_tab == '.!labelframe.!entry27':
-        return 3
-    if focused_tab == '.!labelframe.!entry35':
-        return 4
-    if focused_tab == '.!labelframe.!entry43':
-        return 5
-    if focused_tab == '.!labelframe.!entry51':
-        return 6
-    if focused_tab == '.!labelframe.!entry59':
-        return 7
-    if focused_tab == '.!labelframe.!entry67':
-        return 8
-
-    # old gold desc entry:
-    if focused_tab == '.!labelframe2.!entry':
-        return 0
-    if focused_tab == '.!labelframe2.!entry5':
-        return 1
-    if focused_tab == '.!labelframe2.!entry9':
-        return 2
-
-    # old gold weight
-    if focused_tab == '.!labelframe2.!entry2':
-        return 0
-    if focused_tab == '.!labelframe2.!entry6':
-        return 1
-    if focused_tab == '.!labelframe2.!entry10':
-        return 2
-
-    # old gold amt
-    if focused_tab == '.!labelframe2.!entry4':
-        return 0
-    if focused_tab == '.!labelframe2.!entry8':
-        return 1
-    if focused_tab == '.!labelframe2.!entry12':
-        return 2
-
-    # add desc :
-    if focused_tab == '.!labelframe3.!entry':
-        return 0
-    if focused_tab == '.!labelframe3.!entry3':
-        return 1
-    if focused_tab == '.!labelframe3.!entry5':
-        return 2
-
-    # add amt :
-    if focused_tab == '.!labelframe3.!entry2':
-        return 0
-    if focused_tab == '.!labelframe3.!entry4':
-        return 1
-    if focused_tab == '.!labelframe3.!entry6':
-        return 2
-
-
 def setCustData(u: UiFields, data):
     print('cust Data', data)
     insert_after_delete(u.name_txt, data[1])
@@ -276,9 +42,9 @@ def setCustData(u: UiFields, data):
     u.entryCount = 4
 
 
-def calculate(u: UiFields, focused_tab):
+def calculate(u: UiFields, i, by='backend'):
     try:
-        i = tabNumber(focused_tab)
+        print(i)
         wt = float(u.wt_txt[i].get())
         amt = float(u.net_txt[i].get())
         gr = u.gold_rate
@@ -293,9 +59,22 @@ def calculate(u: UiFields, focused_tab):
 
         mc = (cost / wt) - gr
         mc = round(mc, 2)
-
         cgst = round(cgst / 2, 2)
         gstamt = cgst * 2
+
+        if mc < 0:
+            if by == 'backend':
+                print("There is a error in calculation mc")
+                u.entryCount = 6 + i * 3
+                u.wt_txt[i].focus()
+                u.net_txt[i].configure(highlightcolor=u.entry_wrong_color)
+                # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
+                return 1
+            else:
+                startOverGOLDRATE(u)
+                print("There is a error in calculation mc")
+                messagebox.showerror("Error", 'GOLD RATE IS TOO HIGH')
+                return 1
 
         insert_into_disabled(u.cgst_txt[i], cgst)
         insert_into_disabled(u.sgst_txt[i], cgst)
@@ -303,18 +82,10 @@ def calculate(u: UiFields, focused_tab):
         insert_into_disabled(u.mc_txt[i], mc)
 
         u.gstAmt_txt[i].focus_set()
-
-        if mc < 0:
-            print("There is a error in calculation mc")
-            u.entryCount = 6 + i * 3
-            u.wt_txt[i].focus()
-            u.net_txt[i].configure(highlightcolor=u.entry_wrong_color)
-            # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
-            return 1
-
-    except Exception:
+    except Exception as e:
         print("there is a error in calculation")
-        u.des_txt[i].focus_set()
+        # u.des_txt[i].focus_set()
+        messagebox.showerror("Error", "There is a error in calculation: {0}".format(e))
 
 
 def set_total_after_charges(u: UiFields):
@@ -548,7 +319,8 @@ def enterOperation(focused_tab, u: UiFields):
 
     if tab_name == 'newTotal' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and u.net_txt[i].get() != ''):
         try:
-            chec = calculate(u, focused_tab)
+            i = tabNumber(focused_tab)
+            chec = calculate(u, i, 'backend')
             if chec == 1:
                 return
             total = float(u.total_before_charge)
