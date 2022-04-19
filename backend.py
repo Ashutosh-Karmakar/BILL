@@ -1,7 +1,7 @@
 from tkinter import *
 from baseInitialization import UiFields
 from database import findBillNumber, findByNumber
-from common import insert_into_disabled
+from common import insert_into_disabled, insert_after_delete
 
 
 def check_clicked_tab(u: UiFields):
@@ -265,15 +265,12 @@ def tabNumber(focused_tab):
 
 def setCustData(u: UiFields, data):
     print('cust Data', data)
-    u.name_txt.delete(0, END)
-    u.address_txt.delete(0, END)
-    u.addhar_txt.delete(0, END)
-    u.name_txt.insert(0, data[1])
-    u.address_txt.insert(0, data[3])
+    insert_after_delete(u.name_txt, data[1])
+    insert_after_delete(u.address_txt, data[3])
     if data[4] is None:
-        u.addhar_txt.insert(0, '')
+        insert_after_delete(u.addhar_txt, '')
     else:
-        u.addhar_txt.insert(0, data[4])
+        insert_after_delete(u.addhar_txt, data[4])
     u.addhar_txt.focus_set()
     u.entryCount = 4
 
@@ -313,9 +310,7 @@ def calculate(u: UiFields, focused_tab):
             u.net_txt[i].configure(highlightcolor=u.entry_wrong_color)
             # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
             return 1
-            print(i)
-            # u.total.delete(0,END)
-            # u.total.insert(0,0.0)
+
     except Exception:
         print("there is a error in calculation")
         u.des_txt[i].focus_set()
@@ -327,14 +322,12 @@ def set_total_after_charges(u: UiFields):
             tot = float(u.total_before_charge)
             cha = float(u.charge_amt)
             tot = round(tot + tot * (cha / 100), 2)
-            u.total.delete(0, END)
-            u.total.insert(0, tot)
+            insert_after_delete(u.total, tot)
         elif u.total.get() != '':
             tot = float(u.total_before_charge)
             cha = float(u.charge_amt)
             tot = round(tot - tot * (cha / 100), 2)
-            u.total.delete(0, END)
-            u.total.insert(0, u.total_before_charge)
+            insert_after_delete(u.total, u.total_before_charge)
             u.charge_amt = 0.0
     except Exception as e:
         print("There is a exception : {0}".format(e))
@@ -352,8 +345,7 @@ def setTotal(u: UiFields, amt):
     try:
         if u.charge.get() != '':
             amt = round(amt + (amt * (float(u.charge_amt) / 100)), 2)
-        u.total.delete(0, END)
-        u.total.insert(0, amt)
+        insert_after_delete(u.total, amt)
     except Exception as e:
         print("There is a exception : {0}".format(e))
 
@@ -526,13 +518,11 @@ def enterOperation(focused_tab, u: UiFields):
 
     if tab_name == 'name' and u.name_txt.get() != '':
         name = u.name_txt.get()
-        u.name_txt.delete(0, END)
-        u.name_txt.insert(0, name.capitalize())
+        insert_after_delete(u.name_txt, name.capitalize())
 
     if tab_name == 'desc' and u.des_txt[i].get() != '':
         des = u.des_txt[i].get()
-        u.des_txt[i].delete(0, END)
-        u.des_txt[i].insert(0, des.capitalize())
+        insert_after_delete(u.des_txt[i], des.capitalize())
 
     if u.cnt > 0:
         u.cnt = 0
@@ -543,9 +533,6 @@ def enterOperation(focused_tab, u: UiFields):
         if u.old_tab_name == 'oldAmt':
             u.oldtotal_txt[2].focus_set()
             u.entryCount = 38
-        # elif(u.old_tab_name == 'addDesc'):
-        # u.addtotal_txt[2].focus_set()
-        # u.entryCount = 42
 
     if (tab_name == 'desc' and u.des_txt[i].get() == '') \
             or (tab_name == 'oldAmt' and u.oldtotal_txt[i].get() == '') \
@@ -640,105 +627,28 @@ def convert(n):
 
 
 def newBill(u: UiFields):
-    u.bill_generated = False
-    u.entryCount = 0
-    u.charge_amt = 0.0
     u.mobile_txt.delete(0, END)
     u.mobile_txt.configure(highlightcolor=u.entry_correct_color)
-    u.mobile_txt.focus()
-
     u.name_txt.delete(0, END)
     u.name_txt.configure(highlightcolor=u.entry_correct_color)
-
     u.address_txt.delete(0, END)
     u.address_txt.configure(highlightcolor=u.entry_correct_color)
-
     u.addhar_txt.delete(0, END)
     u.addhar_txt.configure(highlightcolor=u.entry_correct_color)
-
     u.bill_txt = findBillNumber()
-    u.bill_txt_entry.config(state='normal')
-    u.bill_txt_entry.delete(0, END)
-    u.bill_txt_entry.insert(0, u.bill_txt)
-    u.bill_txt_entry.config(state=DISABLED)
-    u.total_before_charge = 0.0
-    u.old_net_total = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    u.old_old_total = [0, 0, 0]
-    u.old_add_total = [0, 0, 0]
-    u.total_taxable_amt = []
-    # ========================================new Gold==============================================
-
-    for i in range(0, 9):
-        if u.des_txt[i].get() != '':
-            u.des_txt[i].delete(0, END)
-            u.des_txt[i].configure(highlightcolor=u.entry_correct_color)
-
-            u.wt_txt[i].delete(0, END)
-            u.wt_txt[i].configure(highlightcolor=u.entry_correct_color)
-
-            u.net_txt[i].delete(0, END)
-            u.net_txt[i].configure(highlightcolor=u.entry_correct_color)
-
-            u.mc_txt[i].config(state='normal')
-            u.mc_txt[i].delete(0, END)
-            u.mc_txt[i].configure(highlightcolor=u.entry_correct_color)
-            u.mc_txt[i].config(state=DISABLED)
-
-            # u.unit_txt[i].config(state='normal')
-            # u.unit_txt[i].delete(0,END)
-            # u.unit_txt[i].configure(highlightcolor= u.entry_correct_color)
-            # u.unit_txt[i].config(state=DISABLED)
-
-            u.cgst_txt[i].config(state='normal')
-            u.cgst_txt[i].delete(0, END)
-            u.cgst_txt[i].configure(highlightcolor=u.entry_correct_color)
-            u.cgst_txt[i].config(state=DISABLED)
-
-            u.sgst_txt[i].config(state='normal')
-            u.sgst_txt[i].delete(0, END)
-            u.sgst_txt[i].configure(highlightcolor=u.entry_correct_color)
-            u.sgst_txt[i].config(state=DISABLED)
-
-            u.gstAmt_txt[i].config(state='normal')
-            u.gstAmt_txt[i].delete(0, END)
-            u.gstAmt_txt[i].configure(highlightcolor=u.entry_correct_color)
-            u.gstAmt_txt[i].config(state=DISABLED)
-
-    # ==================================old gold=====================================================
-
-    for i in range(0, 3):
-        u.oldDesc_txt[i].delete(0, END)
-        u.oldDesc_txt[i].configure(highlightcolor=u.entry_correct_color)
-        u.oldDesc_txt[i].insert(0, 'Old Gold')
-
-        u.oldwe_txt[i].delete(0, END)
-        u.oldwe_txt[i].configure(highlightcolor=u.entry_correct_color)
-
-        u.oldtotal_txt[i].delete(0, END)
-        u.oldtotal_txt[i].configure(highlightcolor=u.entry_correct_color)
-
-    # ===========================================addition or deduction===============================
-
-    for i in range(0, 3):
-        u.addDesc_txt[i].delete(0, END)
-        u.addDesc_txt[i].configure(highlightcolor=u.entry_correct_color)
-
-        u.addtotal_txt[i].delete(0, END)
-        u.addtotal_txt[i].configure(highlightcolor=u.entry_correct_color)
-
-    # =================================mode of payment and total==============================
-
-    u.clicked.set('Cash')
-    u.charge.delete(0, END)
-
-    u.total.delete(0, END)
-    u.total.configure(highlightcolor=u.entry_correct_color)
-    u.total.insert(0, 0)
+    insert_into_disabled(u.bill_txt_entry, u.bill_txt)
+    u.mobile_txt.focus()
+    u.entryCount = 0
+    cleanStart(u)
 
 
 def startOverGOLDRATE(u: UiFields):
     u.des_txt[0].focus()
     u.entryCount = 4
+    cleanStart(u)
+
+
+def cleanStart(u: UiFields):
     u.bill_generated = False
     u.charge_amt = 0.0
     u.total_before_charge = 0.0
@@ -746,9 +656,7 @@ def startOverGOLDRATE(u: UiFields):
     u.old_old_total = [0, 0, 0]
     u.old_add_total = [0, 0, 0]
     u.total_taxable_amt = []
-
     # ========================================new Gold==============================================
-
     for i in range(0, 9):
         if u.des_txt[i].get() != '':
             u.des_txt[i].delete(0, END)
@@ -764,11 +672,6 @@ def startOverGOLDRATE(u: UiFields):
             u.mc_txt[i].delete(0, END)
             u.mc_txt[i].configure(highlightcolor=u.entry_correct_color)
             u.mc_txt[i].config(state=DISABLED)
-
-            # u.unit_txt[i].config(state='normal')
-            # u.unit_txt[i].delete(0,END)
-            # u.unit_txt[i].configure(highlightcolor= u.entry_correct_color)
-            # u.unit_txt[i].config(state=DISABLED)
 
             u.cgst_txt[i].config(state='normal')
             u.cgst_txt[i].delete(0, END)
@@ -788,9 +691,8 @@ def startOverGOLDRATE(u: UiFields):
     # ==================================old gold=====================================================
 
     for i in range(0, 3):
-        u.oldDesc_txt[i].delete(0, END)
         u.oldDesc_txt[i].configure(highlightcolor=u.entry_correct_color)
-        u.oldDesc_txt[i].insert(0, 'Old Gold')
+        insert_after_delete(u.oldDesc_txt[i], 'Old Gold')
 
         u.oldwe_txt[i].delete(0, END)
         u.oldwe_txt[i].configure(highlightcolor=u.entry_correct_color)
@@ -812,6 +714,5 @@ def startOverGOLDRATE(u: UiFields):
     u.clicked.set('Cash')
     u.charge.delete(0, END)
 
-    u.total.delete(0, END)
     u.total.configure(highlightcolor=u.entry_correct_color)
-    u.total.insert(0, 0)
+    insert_after_delete(u.total, 0)

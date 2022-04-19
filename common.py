@@ -39,3 +39,7 @@ def insert_into_disabled(widget, value):
     widget.delete(0, END)
     widget.insert(0, value)
     widget.config(state=DISABLED)
+
+def insert_after_delete(widget, value):
+    widget.delete(0, END)
+    widget.insert(0, value)

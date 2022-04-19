@@ -17,6 +17,7 @@ from database import findBillNumber, findGoldRate, findConfigValue
 from changeConfig import config
 from findBill import find
 from phoneNumber import findPhone
+from common import insert_into_disabled
 
 u = UiFields()
 u.gold_rate = 4876
@@ -109,8 +110,7 @@ u.bill.grid(row=1, column=20)
 u.bill_txt_entry = Entry(window, width=25, font='arial ' + str(textfont), bd=2, justify=CENTER,
                          highlightthickness=u.border_size, highlightcolor=u.entry_correct_color)
 u.bill_txt_entry.grid(row=1, column=21)
-u.bill_txt_entry.insert(0, u.bill_txt)
-u.bill_txt_entry.config(state=DISABLED)
+insert_into_disabled(u.bill_txt_entry, u.bill_txt)
 
 u.date_label = Label(window, text=daten.strftime("%d-%b-%y - (%A)"), font=('times new rommon', labelfont),
                      bg=u.bg_color)
@@ -182,8 +182,7 @@ for i in range(1, 10):
     txt5 = Entry(F2, width=9, font='arial 15', bd=1, justify=CENTER, highlightthickness=u.border_size,
                  highlightcolor=u.entry_correct_color)
     txt5.grid(row=i, column=6, padx=4, pady=3)
-    txt5.insert(0, u.gold_rate)
-    txt5.config(state=DISABLED)
+    insert_into_disabled(txt5, u.gold_rate)
     u.unit_txt.append(txt5)
 
     txt6 = Entry(F2, width=10, font='arial 15', bd=1, justify=CENTER, highlightthickness=u.border_size,
@@ -231,8 +230,7 @@ for i in range(1, 4):
 
     txt10 = Entry(F3, width=80, font='arial 12', highlightthickness=u.border_size, highlightcolor=u.entry_correct_color)
     txt10.grid(row=i, column=1, padx=4, pady=2)
-    txt10.insert(0, 'Old Ornament')
-    txt10.config(state=DISABLED)
+    insert_into_disabled(txt10, 'Old Ornament')
     u.oldDesc_txt.append(txt10)
 
     txt11 = Entry(F3, width=15, font='arial 10', bd=1, justify=CENTER, highlightthickness=u.border_size,
@@ -244,8 +242,7 @@ for i in range(1, 4):
     txt12 = Entry(F3, width=15, font='arial 12', bd=1, justify=CENTER, highlightthickness=u.border_size,
                   highlightcolor=u.entry_correct_color)
     txt12.grid(row=i, column=3, padx=4, pady=2)
-    txt12.insert(0, u.gold_rate - 100)
-    txt12.config(state=DISABLED)
+    insert_into_disabled(txt12, u.gold_rate - 100)
     u.oldunit_txt.append(txt12)
 
     txt13 = Entry(F3, width=15, font='arial 12', bd=1, justify=CENTER, highlightthickness=u.border_size,
@@ -275,8 +272,7 @@ for i in range(1, 4):
 
     txt15 = Entry(F4, width=80, font='arial 12', highlightthickness=u.border_size, highlightcolor=u.entry_correct_color)
     txt15.grid(row=i, column=1, padx=4, pady=2)
-    txt15.insert(0, 'Others')
-    txt15.config(state=DISABLED)
+    insert_into_disabled(txt15, 'Others')
     u.addDesc_txt.append(txt15)
 
     txt16 = Entry(F4, width=15, font='arial 12', bd=1, justify=CENTER, highlightthickness=u.border_size,
@@ -341,8 +337,8 @@ u.entry_list.append(u.total)
 # ======================================Buttons of the Code=========================
 
 
-def findBill():
-    os.system('python findBill.py')
+# def findBill():
+#     os.system('python findBill.py')
 
 
 F6 = LabelFrame(window, bg="#519259")
@@ -376,10 +372,6 @@ u.config_btn.grid(column=6, row=0, padx=20, pady=10)
 u.phone_btn = Button(F6, text="Customer", font=('times new rommon', 13), command=findPhone, bg=u.bg_color, bd=2)
 u.phone_btn.grid(column=7, row=0, padx=20, pady=10)
 
-
-# window.bind('<Control-G>', generateBill(u))
-# window.bind('<Control-p>', prin)
-# window.bind('<Control-slash>', opena)
 window.mainloop()
 
 # ========================================end of the code================================
