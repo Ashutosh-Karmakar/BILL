@@ -350,7 +350,7 @@ def set_total_after_charges(u: UiFields):
             cha = float(u.charge_amt)
             tot = round(tot - tot * (cha / 100), 2)
             u.total.delete(0, END)
-            u.total.insert(0, u.total_before_charge)
+            u.total.insert(0, round(u.total_before_charge, 2))
             u.charge_amt = 0.0
     except Exception as e:
         print("There is a exception : {0}".format(e))
@@ -603,7 +603,7 @@ def enterOperation(focused_tab, u: UiFields):
         elif u.old_old_total[i] != 0:
             u.total_before_charge = u.total_before_charge + u.old_old_total[i]
 
-        setTotal(u, u.total_before_charge)
+        setTotal(u, round(u.total_before_charge, 2))
         u.old_old_total[i] = amt
 
     if tab_name == 'addAmt' and u.addtotal_txt[i].get() != '' and checkField(focused_tab, u) is False:
@@ -616,7 +616,7 @@ def enterOperation(focused_tab, u: UiFields):
         elif u.old_add_total[i] != 0:
             print(u.old_add_total[i])
             u.total_before_charge = u.total_before_charge - u.old_add_total[i]
-        setTotal(u, u.total_before_charge)
+        setTotal(u, round(u.total_before_charge, 2))
         u.old_add_total[i] = amt
 
 
