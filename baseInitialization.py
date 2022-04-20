@@ -137,6 +137,7 @@ class UiFields:
     newConfig_btn: Button
     addConfig_btn: Button
     config_btn: Button
+    phone_btn : Button
 
     bill_generated = False
     credit_card_charge = 0.0

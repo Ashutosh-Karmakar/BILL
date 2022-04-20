@@ -16,6 +16,7 @@ from billgenerator import generateBill
 from database import findBillNumber, findGoldRate, findConfigValue
 from changeConfig import config
 from findBill import find
+from phoneNumber import findPhone
 
 u = UiFields()
 u.gold_rate = 4876
@@ -371,6 +372,10 @@ u.gstBtn.grid(column=5, row=0, padx=20, pady=10)
 
 u.config_btn = Button(F6, text="Config", font=('times new rommon', 13), command=lambda: config(u), bg=u.bg_color, bd=2)
 u.config_btn.grid(column=6, row=0, padx=20, pady=10)
+
+u.phone_btn = Button(F6, text="Customer", font=('times new rommon', 13), command=findPhone, bg=u.bg_color, bd=2)
+u.phone_btn.grid(column=7, row=0, padx=20, pady=10)
+
 
 # window.bind('<Control-G>', generateBill(u))
 # window.bind('<Control-p>', prin)
