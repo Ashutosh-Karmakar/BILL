@@ -1,7 +1,5 @@
 import win32print
-from tkinter import *
 import xlwings as xw
-import xlwings.constants
 
 
 def selectPrinter():

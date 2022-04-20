@@ -1,10 +1,9 @@
-from baseInitialization import UiFields
-from database import findAllConfig, insertNewConfig, changeConfig
 import tkinter
 from tkinter import *
-import sys
 
-# c = UiFields()
+from baseInitialization import UiFields
+from database import findAllConfig, insertNewConfig, changeConfig
+
 
 i = 1
 
@@ -50,9 +49,7 @@ def edit(c: UiFields, i):
 def config(c: UiFields):
     global i
     window = tkinter.Tk()
-    # window.attributes('-fullscreen', True)
     window.geometry('1000x800')
-    # window.configure(bg=u.background_color)
     window.title("Config")
     window.configure(bg=c.bg_color)
 
@@ -102,4 +99,3 @@ def config(c: UiFields):
 
     window.mainloop()
 
-# config()

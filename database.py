@@ -1,6 +1,7 @@
-from tkinter import messagebox
 import mysql.connector
 import sys
+from tkinter import messagebox
+
 from baseInitialization import UiFields
 from gstexel import create, insertTotal
 
@@ -121,13 +122,9 @@ def saveBillLocation(u: UiFields):
 # important
 def findGst(u: UiFields):
     try:
-        # gstDateFrom
-        # gstDateTo
         comd = "Select * from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "';"
         print(comd)
         cursor.execute(comd)
-        # for gst in cursor.fetchall():
-        #     print(gst)
         result = cursor.fetchall()
         create(result, u)
         if len(result):
