@@ -40,11 +40,11 @@ def monthlyGst(u: UiFields):
     u.gstDateTo = Label(window, text="", font=('times new rommon', 11), bg=u.bg_color)
     u.gstDateTo.grid(row=1, column=4)
 
-    u.gstFind = Button(window, text="Find", font=('times new rommon', 13), command=lambda: findGst(u), bg='red', bd=2)
+    u.gstFind = Button(window, text="Find", font=('times new rommon', 13), command=lambda: findGst(u), fg='white', bg='#' + u.blue, bd=2)
     u.gstFind.grid(column=1, row=4)
     u.gstFind.grid_forget()
 
-    u.gstSend = Button(window, text="Send", font=('times new rommon', 13), command=lambda: send_email(u), bg='red', bd=2)
+    u.gstSend = Button(window, text="Send", font=('times new rommon', 13), command=lambda: send_email(u), fg='white', bg='#' + u.red, bd=2)
     u.gstSend.grid(column=2, row=4)
     u.gstSend.grid_forget()
 
@@ -71,8 +71,8 @@ def monthlyGst(u: UiFields):
                 llmsg.grid(column=1, row=4)
 
     Button(window, text="Get Date",
-           command=lambda: grad_date(calfrom, 1)).grid(row=3, column=0)
+           command=lambda: grad_date(calfrom, 1), font=('times new rommon Bold', 11), fg='white', bg='#' + u.green).grid(row=3, column=0)
     Button(window, text="Get Date",
-           command=lambda: grad_date(calto, 2)).grid(row=3, column=3)
+           command=lambda: grad_date(calto, 2), font=('times new rommon Bold', 11), fg='white', bg='#' + u.green).grid(row=3, column=3)
 
     window.mainloop()

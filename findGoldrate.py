@@ -1,7 +1,7 @@
 from tkinter import *
 
 from baseInitialization import UiFields
-from common import createCalender, visual_date_convert
+from common import createCalender, visual_date_convert, date_to_string
 from database import findGRDate
 
 
@@ -14,7 +14,9 @@ def findGoldRateOnDate(u: UiFields):
     cal.pack(pady=20)
 
     def grad_date():
-        u.grFindDate = visual_date_convert(cal.get_date())
+        dat = cal.get_date()
+        u.cal1 = date_to_string(dat)
+        u.grFindDate = visual_date_convert(dat)
         print(u.grFindDate)
         i = findGRDate(u)
 
@@ -23,11 +25,11 @@ def findGoldRateOnDate(u: UiFields):
         goldRate.config(font=("times new rommon", 11))
 
     Button(root, text="Get Date",
-           command=grad_date).pack(pady=20)
+           command=grad_date, font=('times new rommon Bold', 11), fg='white', bg='#' + u.green).pack(pady=20)
 
-    date = Label(root, text="")
+    date = Label(root, text="", font=('times new rommon Bold', 11),bg=u.bg_color)
     date.pack(pady=20)
-    goldRate = Label(root, text="")
+    goldRate = Label(root, text="", font=('times new rommon Bold', 11),bg=u.bg_color)
     goldRate.pack(pady=20)
 
     root.mainloop()

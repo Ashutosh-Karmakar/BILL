@@ -99,9 +99,9 @@ def set_total_after_charges(u: UiFields):
             tot = float(u.total_before_charge)
             cha = float(u.charge_amt)
             tot = round(tot - tot * (cha / 100), 2)
-            u.total.delete(0, END)
-            u.total.insert(0, round(u.total_before_charge, 2))
-            insert_after_delete(u.total, u.total_before_charge)
+            # u.total.delete(0, END)
+            # u.total.insert(0, round(u.total_before_charge, 2))
+            insert_after_delete(u.total, round(u.total_before_charge, 2))
             u.charge_amt = 0.0
     except Exception as e:
         print("There is a exception : {0}".format(e))
@@ -239,6 +239,7 @@ def checkField(focused_tab, u: UiFields):
 def enterOperation(focused_tab, u: UiFields):
     tab_name = focusedTab(focused_tab)
     i = tabNumber(focused_tab)
+    print(focused_tab)
 
     if checkField(focused_tab, u):
         if tab_name == 'name':
@@ -314,12 +315,12 @@ def enterOperation(focused_tab, u: UiFields):
         u.cnt = u.cnt + 1
         u.old_tab_name = tab_name
 
-    if tab_name == 'number' and u.mobile_txt.get() != '':
+    elif tab_name == 'number' and u.mobile_txt.get() != '':
         data = findByNumber(u.mobile_txt.get())
         if data != 0:
             setCustData(u, data)
 
-    if tab_name == 'newTotal' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and u.net_txt[i].get() != ''):
+    elif tab_name == 'newTotal' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and u.net_txt[i].get() != ''):
         try:
             i = tabNumber(focused_tab)
             chec = calculate(u, i, 'backend')
@@ -339,7 +340,7 @@ def enterOperation(focused_tab, u: UiFields):
         except Exception as e:
             print("There is a exception : {0}".format(e))
 
-    if tab_name == 'oldAmt' and u.oldtotal_txt[i].get() != '' and checkField(focused_tab, u) is False:
+    elif tab_name == 'oldAmt' and u.oldtotal_txt[i].get() != '' and checkField(focused_tab, u) is False:
         total = u.total_before_charge
         amt = findAmt(u.oldtotal_txt[i])
         u.total_before_charge = total - amt
@@ -352,7 +353,7 @@ def enterOperation(focused_tab, u: UiFields):
         setTotal(u, round(u.total_before_charge, 2))
         u.old_old_total[i] = amt
 
-    if tab_name == 'addAmt' and u.addtotal_txt[i].get() != '' and checkField(focused_tab, u) is False:
+    elif tab_name == 'addAmt' and u.addtotal_txt[i].get() != '' and checkField(focused_tab, u) is False:
         total = u.total_before_charge
         amt = findAmt(u.addtotal_txt[i])
         u.total_before_charge = total + amt
@@ -364,41 +365,6 @@ def enterOperation(focused_tab, u: UiFields):
             u.total_before_charge = u.total_before_charge - u.old_add_total[i]
         setTotal(u, round(u.total_before_charge, 2))
         u.old_add_total[i] = amt
-
-
-EMPTY = ''
-X = [EMPTY, 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ',
-     'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen ']
-Y = [EMPTY, EMPTY, 'Twenty ', 'Thirty ', 'Forty ', 'Fifty ', 'Sixty ', 'Seventy ', 'Eighty ', 'Ninety ']
-
-
-def convertToDigit(n, suffix):
-    # if `n` is zero
-    if n == 0:
-        return EMPTY
-    # split `n` if it is more than 19
-    if n > 19:
-        return Y[n // 10] + X[n % 10] + suffix
-    else:
-        return X[n] + suffix
-
-
-def convert(n):
-    # add digits at ten million and hundred million place
-    result = convertToDigit((n // 1000000000) % 100, 'Billion, ')
-    # add digits at ten million and hundred million place
-    result += convertToDigit((n // 10000000) % 100, 'Crore, ')
-    # add digits at hundred thousand and one million place
-    result += convertToDigit(((n // 100000) % 100), 'Lakh, ')
-    # add digits at thousand and tens thousand place
-    result += convertToDigit(((n // 1000) % 100), 'Thousand, ')
-    # add digit at hundred place
-    result += convertToDigit(((n // 100) % 10), 'Hundred ')
-    if n > 100 and n % 100:
-        result += 'and '
-    # add digits at ones and tens place
-    result += convertToDigit((n % 100), '')
-    return result.strip().rstrip(',').replace(', and', ' and')
 
 
 def newBill(u: UiFields):

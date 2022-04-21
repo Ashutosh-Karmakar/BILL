@@ -169,7 +169,7 @@ def findGoldRate(u: UiFields):
 def findGRDate(u: UiFields):
     try:
         comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" + str(
-            u.grFindDate) + "' ORDER BY id desc LIMIT 1;")
+            u.cal1) + "' ORDER BY id desc LIMIT 1;")
         print(comd)
         cursor.execute(comd)
         result = cursor.fetchall()

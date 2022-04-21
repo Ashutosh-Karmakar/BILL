@@ -12,6 +12,8 @@ def changeGoldRate(u: UiFields):
     gr = tk.Tk()
     gr.withdraw()
     gold_rate = simpledialog.askstring(title="Gold Rate", prompt="Gold Rate?:")
+    if gold_rate is None:
+        return
     if not gold_rate.isnumeric():
         messagebox.showerror("Error", "Gold Rate can only be number")
         return
