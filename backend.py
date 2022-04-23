@@ -315,7 +315,7 @@ def enterOperation(focused_tab, u: UiFields):
         u.cnt = u.cnt + 1
         u.old_tab_name = tab_name
 
-    elif tab_name == 'number' and u.mobile_txt.get() != '':
+    if tab_name == 'number' and u.mobile_txt.get() != '':
         data = findByNumber(u.mobile_txt.get())
         if data != 0:
             setCustData(u, data)
