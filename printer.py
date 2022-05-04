@@ -1,7 +1,6 @@
+from tkinter import messagebox
 import win32print
-from tkinter import *
 import xlwings as xw
-import xlwings.constants
 
 
 def selectPrinter():
@@ -24,5 +23,5 @@ def printBill(filename):
         wb = xw.Book(filename)
         sh2 = wb.sheets
         sh2.api.PrintOut(From=1, To=1, Copies=1)
-    except FileNotFoundError:
-        print("File not found")
+    except Exception as e:
+        messagebox.showerror("Error", "Printing was unsuccessfull\n PLEASE TRY AGAIN:{0}".format(e))

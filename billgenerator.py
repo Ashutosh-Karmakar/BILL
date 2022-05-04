@@ -1,15 +1,15 @@
-import os
-from statistics import median_grouped
-from tkinter import messagebox
-from threading import Thread
-import openpyxl
-from openpyxl.styles import PatternFill, Border, Side, Font, fills, Alignment, Protection, borders
 import datetime
+from threading import Thread
 import time
+from tkinter import messagebox
+import os
+import openpyxl
+from openpyxl.styles import PatternFill, Border, Side, Font, fills
 import subprocess
-from database import saveBillLocation, saveCustomerData, saveGstData
+
+from common import convert
 from baseInitialization import UiFields
-from backend import convert
+from database import saveBillLocation, saveCustomerData, saveGstData
 from printer import printBill
 
 
@@ -554,8 +554,9 @@ def generateBill(u: UiFields):
     foldername = daten.strftime("%b_%y")
 
     dir = u.BASEDIR_BILL + "\\\\" + foldername
+
     try:
-        if (os.path.isdir(dir) == False):
+        if not os.path.isdir(dir):
             os.mkdir(dir)
     except Exception as e:
         print("There is a error in creating folder : {0}".format(e))
@@ -567,7 +568,7 @@ def generateBill(u: UiFields):
     # wb.save(filename='text.xlsx')
     # '''
     print(u.saveLocation)
-    if (u.mobile_txt.get() != ''):
+    if u.mobile_txt.get() != '':
         saveBillLocation(u)
         print('save Location - ', u.saveLocation)
         try:

@@ -1,6 +1,7 @@
-from tkinter import messagebox
 import mysql.connector
 import sys
+from tkinter import messagebox
+
 from baseInitialization import UiFields
 from gstexel import create, insertTotal
 
@@ -121,13 +122,9 @@ def saveBillLocation(u: UiFields):
 # important
 def findGst(u: UiFields):
     try:
-        # gstDateFrom
-        # gstDateTo
         comd = "Select * from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "';"
         print(comd)
         cursor.execute(comd)
-        # for gst in cursor.fetchall():
-        #     print(gst)
         result = cursor.fetchall()
         create(result, u)
         if len(result):
@@ -172,7 +169,7 @@ def findGoldRate(u: UiFields):
 def findGRDate(u: UiFields):
     try:
         comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" + str(
-            u.grFindDate) + "' ORDER BY id desc LIMIT 1;")
+            u.cal1) + "' ORDER BY id desc LIMIT 1;")
         print(comd)
         cursor.execute(comd)
         result = cursor.fetchall()
@@ -240,3 +237,20 @@ def findBillData(u: UiFields):
         return cursor.fetchone()
     except Exception as e:
         print("error")
+
+
+def getPhNumber():
+    try:
+        comd = 'Select id, cust_name, phone_no from customer;'
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchall()
+        data = []
+        for i in range(len(result)):
+            comd = "Select billing_date from billtable where customer_id = " + str(result[i][0]) + " order by billing_date desc limit 1;"
+            cursor.execute(comd)
+            data.append((result[i][1], result[i][2], cursor.fetchone()[0]))
+
+        return data
+    except Exception as e:
+        print("There is a exception : {0}".format(e))
