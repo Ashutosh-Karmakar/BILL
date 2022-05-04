@@ -26,7 +26,7 @@ window = tkinter.Tk()
 window.attributes('-fullscreen', True)
 window.configure(bg=u.background_color)
 window.title("Giridhari Jewellery")
-
+pyautogui.FAILSAFE= False
 
 def enter(event):
     focused_tab = str(window.focus_get())
