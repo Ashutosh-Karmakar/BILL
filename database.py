@@ -109,6 +109,7 @@ def saveBillLocation(u: UiFields):
             u.customer_id = 1
             print("Error in saveBillLocation in finding customer_id")
     try:
+        u.saveLocation = u.saveLocation.replace("\\", '\\\\')
         print(u.saveLocation)
         comd = ("INSERT INTO BILLTable(bill_location, customer_id) VALUES('" + u.saveLocation + "'," +
                 str(u.customer_id) + ");")
