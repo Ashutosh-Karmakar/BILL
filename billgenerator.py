@@ -550,29 +550,26 @@ def generateBill(u: UiFields):
     sh1.page_margins.footer = 0.0
     sh1.page_margins.header = 0.0
 
-    # os.chdir(u.BASEDIR)
     foldername = daten.strftime("%b_%y")
-
-    dir = u.BASEDIR_BILL + "\\\\" + foldername
+    dir = os.path.join(u.BASEDIR_BILL, foldername)
 
     try:
         if not os.path.isdir(dir):
             os.mkdir(dir)
     except Exception as e:
         print("There is a error in creating folder : {0}".format(e))
+        messagebox.showerror("Error", "Error in creating the folder{0}".format(e))
 
-    u.saveLocation = dir + r"\\" + str(u.bill_txt) + ".xlsx"
 
+    u.saveLocation = os.path.join(dir, (str(u.bill_txt) + ".xlsx"))
     saveCustomerData(u, name=u.name_txt.get(), mobile=u.mobile_txt.get(), addhar_number=u.addhar_txt.get(),
                      address=u.address_txt.get())
-    # wb.save(filename='text.xlsx')
-    # '''
-    print(u.saveLocation)
+
     if u.mobile_txt.get() != '':
-        saveBillLocation(u)
         print('save Location - ', u.saveLocation)
         try:
             wb.save(filename=u.saveLocation)
+            saveBillLocation(u)
             print_bill(u)
         except Exception as e:
             messagebox.showerror("Error", "Error in saving the Bill : {0}".format(e))
@@ -580,19 +577,11 @@ def generateBill(u: UiFields):
 
 def print_bill(u: UiFields):
     try:
-        # u.BASEDIR = findBASEDIR()
-        # wb.save(filename=u.BASEDIR+'\test.xlsx')
         thread = Thread(target=printBill, args=(u.saveLocation,))
         thread.start()
-        # thread2 = Thread(target = printDialog)
-        # thread2.start()
-        # thread.join()
         print('Printing - ', "done printing")
-        # thread2.join()
-        # main_thread().sleep(100)
         time.sleep(4)
         subprocess.call(["taskkill", "/F", "/IM", "excel.exe"])
     except Exception as e:
         print("Exception in printing : {0}".format(e))
         messagebox.showerror("Error", "Error in printing the Bill : {0}".format(e))
-    # '''
