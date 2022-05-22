@@ -49,12 +49,12 @@ def saveCustomerData(u: UiFields, name, mobile, addhar_number, address):
 
 
 # important
-def saveGstData(weight, ornament, gold_rate, total_val, cgst, sgst, net_total):
+def saveGstData(weight, ornament, gold_rate, total_val, cgst, sgst, net_total, bill_no):
     try:
         comd = (
-                "INSERT INTO gst_table(ornament, qty,weight,gold_rate, total_val, cgst, sgst, net_total) VALUES('"
+                "INSERT INTO gst_table(ornament, qty,weight,gold_rate, total_val, cgst, sgst, net_total, bill_no) VALUES('"
                 + ornament + "'," + str(1) + "," + str(weight) + "," + str(gold_rate) + "," + str(total_val) + "," +
-                str(cgst) + "," + str(sgst) + "," + str(net_total) + ");"
+                str(cgst) + "," + str(sgst) + "," + str(net_total) + "," + str(bill_no) + ");"
         )
         print(comd)
         cursor.execute(comd)
@@ -90,7 +90,7 @@ def findBillNumber():
         if (result == None):
             return 1
 
-        return result[0] + 1
+        return result[0]+1
     except Exception as e:
         print("there is a error in findbillnumber : {0}".format(e))
 
@@ -123,14 +123,14 @@ def saveBillLocation(u: UiFields):
 # important
 def findGst(u: UiFields):
     try:
-        comd = "Select * from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "';"
+        comd = "Select id, added_date, ornament, qty, weight, gold_rate, total_val, cgst, sgst, net_total from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted = false;"
         print(comd)
         cursor.execute(comd)
         result = cursor.fetchall()
         create(result, u)
         if len(result):
             comd = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date " \
-                   "between '" + str(u.cal1) + "' and '" + str(u.cal2) + "';"
+                   "between '" + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted = false;"
             print(comd)
             cursor.execute(comd)
             res = cursor.fetchall()
@@ -230,14 +230,43 @@ def changeConfig(key, val):
         messagebox.showerror("Error", "There is a error in editing config: {0}".format(e))
 
 
-def findBillData(u: UiFields):
+def findBillData():
     try:
-        comd = 'SELECT bill_location from billtable where id = 71;'
+        comd = 'SELECT c.id, c.cust_name, c.phone_no, b.billing_date, b.id, b.bill_location, b.deleted FROM billtable as b inner join customer as c on b.customer_id = c.id where deleted <> true;'
         print(comd)
         cursor.execute(comd)
-        return cursor.fetchone()
+        return cursor.fetchall()
     except Exception as e:
-        print("error")
+        print("There is a error in finding bill: {0}".format(e))
+        messagebox.showerror("Error", 'There is a error in finding bill: {0}'.format(e))
+        
+        
+def findBillDataByfilter(filter_name, filter):
+    try:
+        if filter_name == 'number':
+            comd = 'SELECT c.id, c.cust_name, c.phone_no, b.billing_date, b.id, \
+                b.bill_location, b.deleted FROM billtable as b inner join customer as c on\
+                    b.customer_id = c.id having c.phone_no=' + str(filter) + ' and deleted <> true order by b.billing_date;'
+        
+        elif filter_name == 'name':
+            comd = "SELECT c.id, c.cust_name, c.phone_no, b.billing_date, b.id, \
+                    b.bill_location, b.deleted FROM billtable as b inner join customer as c on\
+                        b.customer_id = c.id having c.cust_name='" + filter + "' and deleted <> true order by b.billing_date;"
+        elif filter_name == 'bill_no':
+            comd = 'SELECT c.id, c.cust_name, c.phone_no, b.billing_date, b.id, \
+                b.bill_location, b.deleted FROM billtable as b inner join customer as c on\
+                    b.customer_id = c.id having b.id=' + str(filter) + ' and b.deleted <> true;'
+        elif filter_name == 'date':
+            comd = "SELECT c.id, c.cust_name, c.phone_no, b.billing_date, b.id, \
+                    b.bill_location, b.deleted FROM billtable as b inner join customer as c on\
+                        b.customer_id = c.id having b.billing_date >= '" + filter + "' and deleted <> true order by b.billing_date desc;"
+                
+        print(comd)
+        cursor.execute(comd)
+        return cursor.fetchall()
+    except Exception as e:
+        print("There is a error in finding bill by filter: {0}".format(e))
+        messagebox.showerror("Error", 'There is a error in finding bill by filter: {0}'.format(e))
 
 
 def getPhNumber():
@@ -255,3 +284,37 @@ def getPhNumber():
         return data
     except Exception as e:
         print("There is a exception : {0}".format(e))
+        
+def findBillTotal(bill_no):
+    try:
+        comd = "select  GROUP_CONCAT(ornament) as ornaments, sum(net_total) from gst_table group by (bill_no) having bill_no=" + str(bill_no) + ";"
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchone()
+        return result
+    except Exception as e:
+        print("There is a exception in finding bill total: {0}".format(e))
+    
+
+def bill_delete(bill_no):
+    cursor1 = mysqlDB.cursor()
+    try:
+        print(bill_no)
+        gst_table_ids = []
+        comd = "select id from gst_table where bill_no = "+ bill_no + ";"
+        print(comd)
+        cursor1.execute(comd)
+        result = cursor1.fetchall()
+        comd = "Update billtable SET deleted = true WHERE id = "+ bill_no + ";"
+        print(comd)
+        cursor1.execute(comd)
+        mysqlDB.commit()
+        print(result)
+        for gst_id in result:
+            comd = "Update gst_table SET deleted = true WHERE id = " + str(gst_id[0]) + ";"
+            cursor1.execute(comd)
+            mysqlDB.commit()
+    except Exception as e:
+        messagebox.showerror("Error", 'There is a error in deleting bill: {0}'.format(e))
+        mysqlDB.rollback()
+    

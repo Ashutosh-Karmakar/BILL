@@ -186,7 +186,7 @@ def generateBill(u: UiFields):
             if (u.wt_txt[i - 1].get() != '' and u.net_txt[i - 1].get() != ''):
                 saveGstData(float(u.wt_txt[i - 1].get()), u.des_txt[i - 1].get(), u.gold_rate,
                             u.total_taxable_amt[i - 1], float(u.cgst_txt[i - 1].get()), float(u.sgst_txt[i - 1].get()),
-                            float(u.net_txt[i - 1].get()))
+                            float(u.net_txt[i - 1].get()), int(u.bill_txt))
 
         # ===========================================================old gold============================================================
         sh1['A19'] = 'Si.'
