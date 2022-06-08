@@ -80,6 +80,7 @@ class UiFields:
     green = '009966'
     red = 'C85C5C'
     blue = '2757a3'
+    find_bill_bg = 'grey'
     change_gold_rate: Button
     old_gold_rate = 0.0
 

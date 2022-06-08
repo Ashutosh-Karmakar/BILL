@@ -14,6 +14,7 @@ from findGoldrate import findGoldRateOnDate
 from goldrate import changeGoldRate
 from monthlyGST import monthlyGst
 from phoneNumber import findPhone
+from findBill import findbill_function
 
 
 u = UiFields()
@@ -364,6 +365,9 @@ u.config_btn.grid(column=6, row=0, padx=20, pady=10)
 
 u.phone_btn = Button(F6, text="Customer", font=('times new rommon', 13), command=findPhone, bg=u.bg_color, bd=2)
 u.phone_btn.grid(column=7, row=0, padx=20, pady=10)
+
+u.findbill_btn = Button(F6, text="Find Bills", font=('times new rommon', 13), command=findbill_function, bg=u.bg_color, bd=2)
+u.findbill_btn.grid(column=8, row=0, padx=20, pady=10)
 
 window.mainloop()
 
