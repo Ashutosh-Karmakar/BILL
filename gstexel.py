@@ -33,6 +33,7 @@ def create(data, u: UiFields):
         sh1.cell(row=2, column=k).border = Border(left=medium, bottom=medium, top=medium)
         sh1.cell(row=3, column=k).border = Border(bottom=medium)
     sh1.cell(row=1, column=10).border = Border(right=medium, left=medium, bottom=medium, top=medium)
+    id = 1
     for gst in data:
         for c in gst:
             if i == 9:
@@ -40,7 +41,10 @@ def create(data, u: UiFields):
             else:
                 sh1.cell(row=j, column=i + 1).border = Border(left=medium, bottom=medium)
             location = chr(65 + i) + '' + str(j)
-            if i == 1:
+            if i == 0:
+                sh1[location] = id
+                id += 1
+            elif i == 1:
                 sh1[location] = str(c)[0:10]
             # print(location)
             else:

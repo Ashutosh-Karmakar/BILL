@@ -123,14 +123,21 @@ def saveBillLocation(u: UiFields):
 # important
 def findGst(u: UiFields):
     try:
-        comd = "Select id, added_date, ornament, qty, weight, gold_rate, total_val, cgst, sgst, net_total from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted = false;"
+        clause = ' and '
+        for i in range(len(u.gst_remove_ids)-1):
+            clause += 'id<>' + str(ids[i]) + ' and '
+        clause += 'id<>' + str(u.gst_remove_ids[len(ids)-1])
+        if len(u.gst_remove_ids) == 0:
+            clause = ''
+        comd = "Select * from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "'" + clause + ";"
+
         print(comd)
         cursor.execute(comd)
         result = cursor.fetchall()
         create(result, u)
         if len(result):
             comd = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date " \
-                   "between '" + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted = false;"
+                   "between '" + str(u.cal1) + "' and '" + str(u.cal2) + "'" + clause + ";"
             print(comd)
             cursor.execute(comd)
             res = cursor.fetchall()
@@ -318,3 +325,33 @@ def bill_delete(bill_no):
         messagebox.showerror("Error", 'There is a error in deleting bill: {0}'.format(e))
         mysqlDB.rollback()
     
+
+
+def findGstData(u: UiFields):
+    try:
+        cal1 = '2022-03-15 00:00:00'
+        cal2 = '2022-04-23 00:00:00'
+        comd = "Select * from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "';"
+        comd2 = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date between '" \
+               + str(u.cal1) + "' and '" + str(u.cal2) + "';"
+
+
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchall()
+        print(result)
+        cursor.execute(comd2)
+        sum_results = cursor.fetchall()
+        gst = []
+        for i in result:
+            gst_data = ''
+            for j in i:
+                gst_data += str(j) + '         '
+            gst.append(gst_data)
+        # for i in gst:
+            # print(i)
+        return gst, sum_results
+
+    except Exception as e:
+        messagebox.showerror("Error", "Error in finding GST Data : {0}".format(e))
+        print("There is an error in finding gst data")
