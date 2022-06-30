@@ -5,6 +5,7 @@ from baseInitialization import UiFields
 from common import createCalender, date_to_string, visual_date_convert
 from database import findGst, findConfigValue
 from gstexel import send_email
+from showGST import findGSTDisplay
 
 
 def monthlyGst(u: UiFields):
@@ -40,7 +41,7 @@ def monthlyGst(u: UiFields):
     u.gstDateTo = Label(window, text="", font=('times new rommon', 11), bg=u.bg_color)
     u.gstDateTo.grid(row=1, column=4)
 
-    u.gstFind = Button(window, text="Find", font=('times new rommon', 13), command=lambda: findGst(u), fg='white', bg='#' + u.blue, bd=2)
+    u.gstFind = Button(window, text="Find", font=('times new rommon', 13), command=lambda: findGSTDisplay(u), fg='white', bg='#' + u.blue, bd=2)
     u.gstFind.grid(column=1, row=4)
     u.gstFind.grid_forget()
 

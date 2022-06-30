@@ -1,6 +1,7 @@
 import mysql.connector
 import sys
 from tkinter import messagebox
+import datetime
 
 from baseInitialization import UiFields
 from gstexel import create, insertTotal
@@ -123,14 +124,23 @@ def saveBillLocation(u: UiFields):
 # important
 def findGst(u: UiFields):
     try:
-        comd = "Select id, added_date, ornament, qty, weight, gold_rate, total_val, cgst, sgst, net_total from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted = false;"
+        if len(u.gst_remove_ids) == 0:
+            clause = ''
+        else:
+            clause = ' and '
+            for i in range(len(u.gst_remove_ids)-1):
+                clause += 'id<>' + str(u.gst_remove_ids[i]) + ' and '
+            clause += 'id<>' + str(u.gst_remove_ids[len(u.gst_remove_ids)-1])
+        
+        parent_querry = "(select id, added_date, ornament, qty,  weight, gold_rate, total_val, cgst, sgst, net_total from gst_table where deleted=false) gst_tab"
+        comd = "Select * from " + parent_querry + " where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "'" + clause + ";"
+
         print(comd)
         cursor.execute(comd)
         result = cursor.fetchall()
         create(result, u)
         if len(result):
-            comd = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date " \
-                   "between '" + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted = false;"
+            comd = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from " + parent_querry + " where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "'" + clause + ";"
             print(comd)
             cursor.execute(comd)
             res = cursor.fetchall()
@@ -279,9 +289,13 @@ def getPhNumber():
         for i in range(len(result)):
             comd = "Select billing_date from billtable where customer_id = " + str(result[i][0]) + " order by billing_date desc limit 1;"
             cursor.execute(comd)
-            data.append((result[i][1], result[i][2], cursor.fetchone()[0]))
-
+            cust_data = cursor.fetchone()
+            if cust_data:
+                data.append((result[i][1], result[i][2], cust_data[0]))
+            else:
+                data.append((result[i][1], result[i][2], datetime.datetime(1999, 5, 21, 0, 0)))    
         return data
+    
     except Exception as e:
         print("There is a exception : {0}".format(e))
         
@@ -318,3 +332,29 @@ def bill_delete(bill_no):
         messagebox.showerror("Error", 'There is a error in deleting bill: {0}'.format(e))
         mysqlDB.rollback()
     
+
+
+def findGstData(u: UiFields):
+    try:
+        comd = "Select id, added_date, ornament, qty,  weight, gold_rate, total_val, cgst, sgst, net_total from gst_table where added_date between '" + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted=false;"
+        comd2 = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date between '" \
+               + str(u.cal1) + "' and '" + str(u.cal2) + "' and deleted=false;"
+
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchall()
+        cursor.execute(comd2)
+        sum_results = cursor.fetchall()
+        gst = []
+        for i in result:
+            gst_data = ''
+            for j in i:
+                gst_data += str(j) + '         '
+            gst.append(gst_data)
+        # for i in gst:
+            # print(i)
+        return gst, sum_results
+
+    except Exception as e:
+        messagebox.showerror("Error", "Error in finding GST Data : {0}".format(e))
+        print("There is an error in finding gst data")

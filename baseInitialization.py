@@ -144,3 +144,19 @@ class UiFields:
     credit_card_charge = 0.0
     debit_card_charge = 0.0
     gstFileName = ''
+
+
+
+    gst_remove_ids = []
+
+    total_val_label_gst: Label
+    total_val_gst: float
+
+    cgst_label_gst: Label
+    cgst_gst: float
+
+    sgst_label_gst: Label
+    sgst_gst: float
+
+    net_total_label_gst: Label
+    net_total_gst: float
