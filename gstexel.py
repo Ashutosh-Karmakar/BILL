@@ -110,7 +110,7 @@ def insertTotal(data, u: UiFields):
 
     wb.save(filename=filename)
     u.gstFileName = filename
-    u.gstSend.grid(column=2, row=4)
+    # u.gstSend.grid(column=2, row=4)
 
 
 def send_email(u: UiFields):

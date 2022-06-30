@@ -52,21 +52,22 @@ def clearIds(u: UiFields):
 
 def GoBtn(u: UiFields, root):
     findGst(u)
+    # u.gstSend.grid(column=2, row=)
     clearIds(u)
     root.destroy()
 
 
 def findGSTDisplay(u: UiFields):
     root = Tk()
-    topleveldetail = Label(root, text='si  Date   Description  Qty  Weight  UnitPrice  TotalAmt  Cgst  Sgst  NetTotal ', borderwidth=2, relief="solid", font=('times new rommon', 13))
-    topleveldetail.pack(side=tk.TOP)
+    topleveldetail = Label(root, text='    si        Date         Description    Qty     Weight       UnitPrice        TotalAmt        Cgst        Sgst        NetTotal ', borderwidth=2, relief="solid", font=('times new rommon', 13))
+    topleveldetail.pack(side=tk.TOP, anchor=NW)
 
     h = Scrollbar(root, orient='horizontal')
     h.pack(side=BOTTOM, fill=X)
     v = Scrollbar(root, orient='vertical')
     v.pack(side=RIGHT, fill=Y)
 
-    text = Text(root, width=100, height=30, wrap=NONE,
+    text = Text(root, width=130, height=30, wrap=NONE,
              xscrollcommand=h.set,
              yscrollcommand=v.set)
     result, sum_result = findGstData(u)

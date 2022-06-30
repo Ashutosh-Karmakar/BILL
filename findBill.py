@@ -45,7 +45,7 @@ def convert_to_string(result):
 
 
 def openBill(m, l):
-    buttons[m].config(bg='#'+u.red)
+    buttons[m].config(bg='#'+u.blue)
     if os.path.exists(l):
         try:
             os.system("start EXCEL.EXE "+l)
@@ -57,12 +57,13 @@ def openBill(m, l):
         messagebox.showerror("Not Found", 'File Is Not Found')
         
 def delete_bill(m, l):
-    delete_buttons[m].config(bg='#'+u.blue)
-    print(m,l)
-    bill_data = l.split('\\')
-    bill_no = bill_data[len(bill_data)-1].split('.')[0]
-    print(bill_no)
-    bill_delete(bill_no)
+    if messagebox.askokcancel('Sure', 'Do You Want to delete??'):
+        delete_buttons[m].config(bg='#'+u.blue)
+        print(m,l)
+        bill_data = l.split('\\')
+        bill_no = bill_data[len(bill_data)-1].split('.')[0]
+        print(bill_no)
+        bill_delete(bill_no)
     
         
 def noDataFound(F: Frame):
